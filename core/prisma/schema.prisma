@@ -1,0 +1,22 @@
+generator client {
+  provider = "cargo prisma"
+  output   = "../src/prisma.rs"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.db"
+}
+
+model parent {
+  id    Int     @id @default(autoincrement())
+  name  String
+  child child[]
+}
+
+model child {
+  id       Int    @id @default(autoincrement())
+  name     String
+  parent   parent @relation(fields: [parentId], references: [id])
+  parentId Int
+}
